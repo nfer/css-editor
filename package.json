@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/css": "0.0.31",
+    "css": "^2.2.4",
     "iview": "^3.3.0",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
