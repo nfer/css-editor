@@ -2,10 +2,12 @@
   <div class="css-editor">
     <Row>
       <Form ref="formInline" :model="formInline"
-        label-position="left" :label-width="100" inline>
+        label-position="right" :label-width="100" inline>
         <FormItem prop="type" label="类型">
-          <Input type="text" v-model="formInline.type" placeholder="请选择">
-          </Input>
+          <Select v-model="formInline.type" filterable>
+            <Option v-for="item in types"
+              :value="item" :key="item">{{ item }}</Option>
+          </Select>
         </FormItem>
         <FormItem prop="selector" label="筛选器">
           <Input type="text" v-model="formInline.selector" placeholder="请输入">
@@ -31,7 +33,7 @@
       <Alert show-icon>已选{{ selections.length }}项</Alert>
     </Row>
     <Row>
-      <Table border ref="selection" :columns="headers" :data="rules"
+      <Table border ref="selection" :columns="headers" :data="showRules"
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row, index }" slot="action">
             <Button type="text" size="small" @click="show(row)">编辑</Button>
@@ -73,7 +75,7 @@ export default class CssEditor extends Vue {
     {
       title: '类型',
       key: 'type',
-      width: 80,
+      width: 120,
     },
     {
       title: '选择器',
@@ -95,36 +97,13 @@ export default class CssEditor extends Vue {
     },
   ];
 
-  data1 = [
-    {
-      name: 'John Brown',
-      age: 18,
-      address: 'New York No. 1 Lake Park',
-      date: '2016-10-03',
-    },
-    {
-      name: 'Jim Green',
-      age: 24,
-      address: 'London No. 1 Lake Park',
-      date: '2016-10-01',
-    },
-    {
-      name: 'Joe Black',
-      age: 30,
-      address: 'Sydney No. 1 Lake Park',
-      date: '2016-10-02',
-    },
-    {
-      name: 'Jon Snow',
-      age: 26,
-      address: 'Ottawa No. 2 Lake Park',
-      date: '2016-10-04',
-    },
-  ]
-
   ast: any;
 
   rules: Array<any> = [];
+
+  showRules: Array<any> = [];
+
+  types: Array<string> = [];
 
   selections: Array<any> = [];
 
@@ -142,14 +121,37 @@ export default class CssEditor extends Vue {
   parseCss(content: string) {
     this.ast = css.parse(content);
     this.rules = this.ast.stylesheet.rules;
+    this.showRules = this.rules;
+    const types = this.rules.map(item => item.type);
+    this.types = [...new Set(types)];
   }
 
   handleSubmit() {
+    const { type, selector } = this.formInline;
+    this.showRules = this.rules;
+    if (type) {
+      this.showRules = this.showRules
+        .filter(item => item.type === type);
+    }
+    if (selector) {
+      this.showRules = this.showRules
+        .filter((item) => {
+          if (item.type !== 'rule') {
+            return false;
+          }
 
+          const { selectors } = item;
+          return selectors.some((s: string) => s.indexOf(selector) !== -1);
+        });
+    }
   }
 
   handleReset() {
-
+    this.formInline = {
+      type: '',
+      selector: '',
+    };
+    this.handleSubmit();
   }
 
   handleImport(file: File) {
