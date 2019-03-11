@@ -33,7 +33,7 @@
       <Alert show-icon>已选{{ selections.length }}项</Alert>
     </Row>
     <Row>
-      <Table border ref="selection" :columns="headers" :data="rules"
+      <Table border ref="selection" :columns="headers" :data="pageRules"
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row, index }" slot="action">
             <Button type="text" size="small" @click="show(row, index)">编辑</Button>
@@ -77,6 +77,11 @@ export default class CssEditor extends Vue {
       align: 'center',
     },
     {
+      title: 'ID',
+      key: 'rawIndx',
+      width: 80,
+    },
+    {
       title: '类型',
       key: 'type',
       width: 120,
@@ -84,7 +89,6 @@ export default class CssEditor extends Vue {
     {
       title: '选择器',
       key: 'selectors',
-      width: 150,
     },
     {
       title: '内容',
@@ -104,6 +108,8 @@ export default class CssEditor extends Vue {
   ast: any;
 
   rules: Array<any> = [];
+
+  pageRules: Array<any> = [];
 
   types: Array<string> = [];
 
@@ -135,6 +141,13 @@ export default class CssEditor extends Vue {
     });
     const types = this.rules.map(item => item.type);
     this.types = [...new Set(types)];
+    this.updatePageRules();
+  }
+
+  updatePageRules() {
+    const end = this.pager.current * this.pager.pageSize;
+    const start = end - this.pager.pageSize;
+    this.pageRules = this.rules.slice(start, end);
   }
 
   handleSubmit() {
@@ -155,6 +168,7 @@ export default class CssEditor extends Vue {
           return selectors.some((s: string) => s.indexOf(selector) !== -1);
         });
     }
+    this.updatePageRules();
   }
 
   handleReset() {
@@ -205,10 +219,12 @@ export default class CssEditor extends Vue {
 
   onPageChanged(current: number) {
     this.pager.current = current;
+    this.updatePageRules();
   }
 
   onPageSizeChanged(size: number) {
     this.pager.pageSize = size;
+    this.updatePageRules();
   }
 }
 </script>
