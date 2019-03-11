@@ -56,7 +56,8 @@
         </template>
         <template slot-scope="{ row }" slot="position">
             <span>start: {{ row.position.start }}</span><br/>
-            <span>end: {{ row.position.end }}</span>
+            <span>end: {{ row.position.end }}</span><br/>
+            <span>lines: {{ row.position.end.line - row.position.start.line + 1 }}</span>
         </template>
       </Table>
     </Row>
