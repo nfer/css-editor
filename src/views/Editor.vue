@@ -44,6 +44,15 @@
         <template slot-scope="{ row }" slot="content">
             <span v-if="row.type === 'rule'">{{ declarations2str(row.declarations) }}</span>
             <span v-else-if="row.type === 'comment'">{{ row.comment }}</span>
+            <span v-else-if="row.type === 'font-face'"
+              >{{ declarations2str(row.declarations) }}</span>
+        </template>
+        <template slot-scope="{ row }" slot="selectors">
+            <span v-if="row.type === 'rule'">{{ row.selectors }}</span>
+            <span v-else-if="row.type === 'keyframes'">{{ row.name }}</span>
+            <span v-else-if="row.type === 'media'">{{ row.media }}</span>
+            <span v-else-if="row.type === 'document'"
+              >{{ `@${row.vendor}document: ${row.document}` }}</span>
         </template>
         <template slot-scope="{ row }" slot="position">
             <span>start: {{ row.position.start }}</span><br/>
@@ -90,7 +99,7 @@ export default class CssEditor extends Vue {
     },
     {
       title: '选择器',
-      key: 'selectors',
+      slot: 'selectors',
     },
     {
       title: '内容',
