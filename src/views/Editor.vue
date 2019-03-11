@@ -36,8 +36,8 @@
       <Table border ref="selection" :columns="headers" :data="rules"
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row, index }" slot="action">
-            <Button type="text" size="small" @click="show(row)">编辑</Button>
-            <Button type="text" size="small" @click="deleteItem(index)">删除</Button>
+            <Button type="text" size="small" @click="show(row, index)">编辑</Button>
+            <Button type="text" size="small" @click="deleteItem(row)">删除</Button>
         </template>
         <template slot-scope="{ row }" slot="content">
             <span v-if="row.type === 'rule'">{{ declarations2str(row.declarations) }}</span>
@@ -119,6 +119,11 @@ export default class CssEditor extends Vue {
   parseCss(content: string) {
     this.ast = css.parse(content);
     this.rules = this.ast.stylesheet.rules;
+    this.rules.map((item: any, index: number) => {
+      const res = item;
+      res.rawIndx = index;
+      return res;
+    });
     const types = this.rules.map(item => item.type);
     this.types = [...new Set(types)];
   }
@@ -172,12 +177,15 @@ export default class CssEditor extends Vue {
     link.click();
   }
 
-  deleteItem(index: number) {
+  deleteItem(row: any) {
     this.$Modal.confirm({
       title: '警告',
       content: '是否要删除该条元素？',
       onOk: () => {
-        this.rules.splice(index, 1);
+        const index = this.ast.stylesheet.rules
+          .findIndex((item: any) => item.rawIndx === row.rawIndx);
+        this.ast.stylesheet.rules.splice(index, 1);
+        this.handleSubmit();
       },
     });
   }
