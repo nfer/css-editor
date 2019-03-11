@@ -4,7 +4,8 @@
       <Form ref="formInline" :model="formInline"
         label-position="right" :label-width="100" inline>
         <FormItem prop="type" label="类型">
-          <Select v-model="formInline.type" filterable>
+          <Select v-model="formInline.type" filterable
+            @on-change="onTypeChanged">
             <Option v-for="item in types"
               :value="item" :key="item">{{ item }}</Option>
           </Select>
@@ -212,6 +213,10 @@ export default class CssEditor extends Vue {
         this.handleSubmit();
       },
     });
+  }
+
+  onTypeChanged() {
+    this.handleSubmit();
   }
 
   onSelectionChanged(selections: Array<any>) {
