@@ -78,7 +78,7 @@ export default class CssEditor extends Vue {
     },
     {
       title: 'ID',
-      key: 'rawIndx',
+      key: 'rawIndex',
       width: 80,
     },
     {
@@ -136,7 +136,7 @@ export default class CssEditor extends Vue {
     this.rules = this.ast.stylesheet.rules;
     this.rules.map((item: any, index: number) => {
       const res = item;
-      res.rawIndx = index;
+      res.rawIndex = index;
       return res;
     });
     const types = this.rules.map(item => item.type);
@@ -206,7 +206,7 @@ export default class CssEditor extends Vue {
       content: '是否要删除该条元素？',
       onOk: () => {
         const index = this.ast.stylesheet.rules
-          .findIndex((item: any) => item.rawIndx === row.rawIndx);
+          .findIndex((item: any) => item.rawIndex === row.rawIndex);
         this.ast.stylesheet.rules.splice(index, 1);
         this.handleSubmit();
       },
