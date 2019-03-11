@@ -33,7 +33,7 @@
       <Alert show-icon>已选{{ selections.length }}项</Alert>
     </Row>
     <Row>
-      <Table border ref="selection" :columns="headers" :data="showRules"
+      <Table border ref="selection" :columns="headers" :data="rules"
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row, index }" slot="action">
             <Button type="text" size="small" @click="show(row)">编辑</Button>
@@ -101,8 +101,6 @@ export default class CssEditor extends Vue {
 
   rules: Array<any> = [];
 
-  showRules: Array<any> = [];
-
   types: Array<string> = [];
 
   selections: Array<any> = [];
@@ -121,20 +119,19 @@ export default class CssEditor extends Vue {
   parseCss(content: string) {
     this.ast = css.parse(content);
     this.rules = this.ast.stylesheet.rules;
-    this.showRules = this.rules;
     const types = this.rules.map(item => item.type);
     this.types = [...new Set(types)];
   }
 
   handleSubmit() {
     const { type, selector } = this.formInline;
-    this.showRules = this.rules;
+    this.rules = this.ast.stylesheet.rules;
     if (type) {
-      this.showRules = this.showRules
+      this.rules = this.rules
         .filter(item => item.type === type);
     }
     if (selector) {
-      this.showRules = this.showRules
+      this.rules = this.rules
         .filter((item) => {
           if (item.type !== 'rule') {
             return false;
