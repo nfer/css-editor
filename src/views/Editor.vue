@@ -10,7 +10,8 @@
           </Select>
         </FormItem>
         <FormItem prop="selector" label="筛选器">
-          <Input type="text" v-model="formInline.selector" placeholder="请输入">
+          <Input type="text" v-model="formInline.selector" placeholder="请输入"
+            :disabled="formInline.type !== '' && formInline.type !== 'rule'">
           </Input>
         </FormItem>
         <FormItem>
@@ -157,7 +158,7 @@ export default class CssEditor extends Vue {
       this.rules = this.rules
         .filter(item => item.type === type);
     }
-    if (selector) {
+    if (selector && (type === '' || type === 'rule')) {
       this.rules = this.rules
         .filter((item) => {
           if (item.type !== 'rule') {
