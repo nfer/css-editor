@@ -50,7 +50,11 @@
       </Table>
     </Row>
     <Row type="flex" justify="end">
-      <Page :total="rules.length" show-total show-sizer show-elevator />
+      <Page :current="pager.current" :total="rules.length"
+        :page-size-opts="[10, 20, 50, 100]"
+        show-total show-sizer show-elevator
+        @on-change="onPageChanged"
+        @on-page-size-change="onPageSizeChanged"/>
     </Row>
   </div>
 </template>
@@ -104,6 +108,11 @@ export default class CssEditor extends Vue {
   types: Array<string> = [];
 
   selections: Array<any> = [];
+
+  pager = {
+    current: 1,
+    pageSize: 10,
+  };
 
   created() {
     this.parseCss('body {margin: 0;}');
@@ -192,6 +201,14 @@ export default class CssEditor extends Vue {
 
   onSelectionChanged(selections: Array<any>) {
     this.selections = selections;
+  }
+
+  onPageChanged(current: number) {
+    this.pager.current = current;
+  }
+
+  onPageSizeChanged(size: number) {
+    this.pager.pageSize = size;
   }
 }
 </script>
