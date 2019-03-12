@@ -38,8 +38,8 @@
       <Table border ref="selection" :columns="headers" :data="pageRules"
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row, index }" slot="action">
-            <Button type="text" size="small" @click="show(row, index)">编辑</Button>
-            <Button type="text" size="small" @click="deleteItem(row)">删除</Button>
+            <Button type="text" @click="show(row, index)">编辑</Button>
+            <Button type="text" @click="deleteItem(row)">删除</Button>
         </template>
         <template slot-scope="{ row }" slot="content">
             <span v-if="row.type === 'rule'">{{ declarations2str(row.declarations) }}</span>
@@ -61,12 +61,17 @@
         </template>
       </Table>
     </Row>
-    <Row type="flex" justify="end">
-      <Page :current="pager.current" :total="rules.length"
-        :page-size-opts="[10, 20, 50, 100]"
-        show-total show-sizer show-elevator
-        @on-change="onPageChanged"
-        @on-page-size-change="onPageSizeChanged"/>
+    <Row>
+      <Col span="8">
+        <Button type="error" @click="deleteBatch">批量删除</Button>
+      </Col>
+      <Col span="16" style="text-align: right;">
+        <Page :current="pager.current" :total="rules.length"
+          :page-size-opts="[10, 20, 50, 100]"
+          show-total show-sizer show-elevator
+          @on-change="onPageChanged"
+          @on-page-size-change="onPageSizeChanged"/>
+      </Col>
     </Row>
   </div>
 </template>
@@ -220,6 +225,21 @@ export default class CssEditor extends Vue {
         const index = this.ast.stylesheet.rules
           .findIndex((item: any) => item.rawIndex === row.rawIndex);
         this.ast.stylesheet.rules.splice(index, 1);
+        this.handleSubmit();
+      },
+    });
+  }
+
+  deleteBatch() {
+    this.$Modal.confirm({
+      title: '警告',
+      content: '是否要批量删除选中元素？',
+      onOk: () => {
+        this.selections.forEach((row: any) => {
+          const index = this.ast.stylesheet.rules
+            .findIndex((item: any) => item.rawIndex === row.rawIndex);
+          this.ast.stylesheet.rules.splice(index, 1);
+        });
         this.handleSubmit();
       },
     });
