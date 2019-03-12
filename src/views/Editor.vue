@@ -38,8 +38,9 @@
       <Table border ref="selection" :columns="headers" :data="pageRules"
         disabled-hover
         @on-selection-change="onSelectionChanged">
-        <template slot-scope="{ row, index }" slot="action">
-            <Button type="text" size="small" @click="show(row, index)">编辑</Button>
+        <template slot-scope="{ row }" slot="action">
+            <Button type="text" size="small" @click="editItem(row)"
+              :disabled="row.type !== 'rule'">编辑</Button>
             <Button type="text" size="small" @click="deleteItem(row)">删除</Button>
         </template>
         <template slot-scope="{ row }" slot="content">
@@ -216,6 +217,10 @@ export default class CssEditor extends Vue {
     link.charset = 'utf-8';
     link.download = name;
     link.click();
+  }
+
+  editItem(row: any) {
+    console.log(row);
   }
 
   deleteItem(row: any) {
