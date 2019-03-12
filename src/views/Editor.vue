@@ -38,8 +38,8 @@
       <Table border ref="selection" :columns="headers" :data="pageRules"
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row, index }" slot="action">
-            <Button type="text" @click="show(row, index)">编辑</Button>
-            <Button type="text" @click="deleteItem(row)">删除</Button>
+            <Button type="text" size="small" @click="show(row, index)">编辑</Button>
+            <Button type="text" size="small" @click="deleteItem(row)">删除</Button>
         </template>
         <template slot-scope="{ row }" slot="content">
             <span v-if="row.type === 'rule'">{{ declarations2str(row.declarations) }}</span>
