@@ -232,6 +232,10 @@ export default class CssEditor extends Vue {
   }
 
   deleteBatch() {
+    if (!this.selections.length) {
+      return;
+    }
+
     this.$Modal.confirm({
       title: '警告',
       content: '是否要批量删除选中元素？',
