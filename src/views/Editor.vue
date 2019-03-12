@@ -36,6 +36,7 @@
     </Row>
     <Row>
       <Table border ref="selection" :columns="headers" :data="pageRules"
+        disabled-hover
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row, index }" slot="action">
             <Button type="text" size="small" @click="show(row, index)">编辑</Button>
