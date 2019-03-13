@@ -75,6 +75,8 @@
           @on-page-size-change="onPageSizeChanged"/>
       </Col>
     </Row>
+    <EditFormModal :show="show" :rule="editRule"
+      @modal-close="show = false"/>
   </div>
 </template>
 
@@ -82,12 +84,21 @@
 import { Component, Vue } from 'vue-property-decorator';
 import css from 'css';
 
-@Component
+import EditFormModal from '@/components/EditFormModal.vue';
+
+
+@Component({
+  components: {
+    EditFormModal,
+  },
+})
 export default class CssEditor extends Vue {
   formInline = {
     type: '',
     selector: '',
   };
+
+  show = false;
 
   headers = [
     {
@@ -133,6 +144,11 @@ export default class CssEditor extends Vue {
   types: Array<string> = [];
 
   selections: Array<any> = [];
+
+  editRule = {
+    declarations: [],
+    selectors: [],
+  };
 
   pager = {
     current: 1,
@@ -220,7 +236,8 @@ export default class CssEditor extends Vue {
   }
 
   editItem(row: any) {
-    console.log(row);
+    this.show = true;
+    this.editRule = row;
   }
 
   deleteItem(row: any) {
