@@ -12,8 +12,8 @@
     "css": "^2.2.4",
     "iview": "^3.3.0",
     "vue": "^2.6.9",
-    "vue-class-component": "^6.0.0",
-    "vue-property-decorator": "^7.0.0",
+    "vue-class-component": "^7.0.1",
+    "vue-property-decorator": "^8.0.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
