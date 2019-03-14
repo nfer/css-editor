@@ -5,7 +5,8 @@
     </p>
     <Form :label-width="80">
       <FormItem label="Select">
-        <Select v-model="selectors" multiple>
+        <Select v-model="selectors" multiple
+          @on-change="onSelectorsChanged">
           <template v-for="item in selectors">
             <Option :key="item" :value="item">{{ item }}</Option>
           </template>
@@ -13,7 +14,7 @@
       </FormItem>
       <FormItem label="Text">
         <Input v-model="cssVal" type="textarea" :autosize="{minRows: 5}"
-          ></Input>
+          @on-blur="onCssValBlur"></Input>
       </FormItem>
     </Form>
     <div slot="footer">
@@ -41,10 +42,13 @@ export default class EditFormModal extends Vue {
 
   cssVal = '';
 
+  ast: any;
+
+  editRule: any;
+
   @Watch('show')
   onShowChanged(show: boolean) {
     this.isShow = show;
-    this.selectors = this.rule.selectors.map((item: any) => item);
 
     const rules = [];
     rules.push(this.rule);
@@ -57,6 +61,15 @@ export default class EditFormModal extends Vue {
     };
 
     this.cssVal = css.stringify(ast);
+
+    this.parseCss();
+  }
+
+  parseCss() {
+    this.ast = css.parse(this.cssVal);
+    [this.editRule] = this.ast.stylesheet.rules;
+    this.editRule.rawIndex = this.rule.rawIndex;
+    this.selectors = this.editRule.selectors;
   }
 
   @Emit('modal-close')
@@ -64,11 +77,17 @@ export default class EditFormModal extends Vue {
     this.isShow = false;
   }
 
+  @Emit('on-rule-change')
+  updateRule() {
+    return this.editRule;
+  }
+
   cancel() {
     this.closeModal();
   }
 
   ok() {
+    this.updateRule();
     this.closeModal();
   }
 
@@ -76,6 +95,15 @@ export default class EditFormModal extends Vue {
     if (!visible) {
       this.closeModal();
     }
+  }
+
+  onSelectorsChanged(values: Array<string>) {
+    this.editRule.selectors = values;
+    this.cssVal = css.stringify(this.ast);
+  }
+
+  onCssValBlur() {
+    this.parseCss();
   }
 }
 </script>
