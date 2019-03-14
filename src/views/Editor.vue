@@ -84,6 +84,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import css from 'css';
+import forkMe from 'fork-me-github';
 
 import EditFormModal from '@/components/EditFormModal.vue';
 
@@ -158,6 +159,9 @@ export default class CssEditor extends Vue {
 
   created() {
     this.parseCss('html, body {margin: 0;}');
+    forkMe('https://github.com/nfer/css-editor', {
+      background: 'gray',
+    });
   }
 
   declarations2str(declarations: Array<any>) {

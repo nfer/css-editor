@@ -10,6 +10,7 @@
   "dependencies": {
     "@types/css": "0.0.31",
     "css": "^2.2.4",
+    "fork-me-github": "^1.2.0",
     "iview": "^3.3.0",
     "vue": "^2.6.9",
     "vue-class-component": "^7.0.1",
