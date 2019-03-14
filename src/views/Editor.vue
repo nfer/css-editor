@@ -241,13 +241,13 @@ export default class CssEditor extends Vue {
     this.editRule = row;
   }
 
-  deleteItem(row: any) {
+  deleteItem(rule: any) {
     this.$Modal.confirm({
       title: '警告',
       content: '是否要删除该条元素？',
       onOk: () => {
         const index = this.ast.stylesheet.rules
-          .findIndex((item: any) => item.rawIndex === row.rawIndex);
+          .findIndex((item: any) => item.rawIndex === rule.rawIndex);
         this.ast.stylesheet.rules.splice(index, 1);
         this.handleSubmit();
       },
@@ -263,9 +263,9 @@ export default class CssEditor extends Vue {
       title: '警告',
       content: '是否要批量删除选中元素？',
       onOk: () => {
-        this.selections.forEach((row: any) => {
+        this.selections.forEach((rule: any) => {
           const index = this.ast.stylesheet.rules
-            .findIndex((item: any) => item.rawIndex === row.rawIndex);
+            .findIndex((item: any) => item.rawIndex === rule.rawIndex);
           this.ast.stylesheet.rules.splice(index, 1);
         });
         this.handleSubmit();
