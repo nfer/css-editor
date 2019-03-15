@@ -298,8 +298,10 @@ export default class CssEditor extends Vue {
   onRuleChanged(rule: any) {
     const index = this.ast.stylesheet.rules
       .findIndex((item: any) => item.rawIndex === rule.rawIndex);
-    this.ast.stylesheet.rules.splice(index, 1, rule);
-    this.handleSubmit();
+    if (index !== -1) {
+      this.ast.stylesheet.rules.splice(index, 1, rule);
+      this.handleSubmit();
+    }
   }
 }
 </script>
