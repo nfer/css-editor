@@ -11,10 +11,6 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/editor',
-    },
-    {
-      path: '/editor',
       name: 'editor',
       component: Editor,
     },
