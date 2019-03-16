@@ -272,6 +272,7 @@ export default class CssEditor extends Vue {
             .findIndex((item: any) => item.rawIndex === rule.rawIndex);
           this.ast.stylesheet.rules.splice(index, 1);
         });
+        this.selections = [];
         this.handleSubmit();
       },
     });
