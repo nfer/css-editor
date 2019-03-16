@@ -250,8 +250,11 @@ export default class CssEditor extends Vue {
       title: '警告',
       content: '是否要删除该条元素？',
       onOk: () => {
-        const index = this.ast.stylesheet.rules
-          .findIndex((item: any) => item.rawIndex === rule.rawIndex);
+        let index = rule.rawIndex;
+        if (this.ast.stylesheet.rules[index].rawIndex !== index) {
+          index = this.ast.stylesheet.rules
+            .findIndex((item: any) => item.rawIndex === rule.rawIndex);
+        }
         this.ast.stylesheet.rules.splice(index, 1);
         this.handleSubmit();
       },
