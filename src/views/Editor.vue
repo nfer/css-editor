@@ -146,8 +146,6 @@ export default class CssEditor extends Vue {
 
   list: Array<any> = [];
 
-  types: Array<string> = [];
-
   selections: Array<any> = [];
 
   editRule = {
@@ -161,6 +159,10 @@ export default class CssEditor extends Vue {
   };
 
   engine: any;
+
+  get types() {
+    return this.engine ? this.engine.getTypes() : [];
+  }
 
   created() {
     this.engine = new CssEngine();
@@ -192,8 +194,6 @@ export default class CssEditor extends Vue {
       res.rawIndex = index;
       return res;
     });
-    const types = this.rules.map(item => item.type);
-    this.types = [...new Set(types)];
     this.updatePageRules();
   }
 

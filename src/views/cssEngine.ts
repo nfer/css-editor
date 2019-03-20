@@ -5,6 +5,8 @@ export default class CssEngine {
 
   rules: Array<any> = [];
 
+  types: Array<string> = [];
+
   parse(content: string) {
     this.ast = css.parse(content);
     this.rules = this.ast.stylesheet.rules;
@@ -13,6 +15,9 @@ export default class CssEngine {
       res.rawIndex = index;
       return res;
     });
+
+    const types = this.rules.map(item => item.type);
+    this.types = [...new Set(types)];
   }
 
   getList(pager: any) {
@@ -20,5 +25,9 @@ export default class CssEngine {
     const start = end - pager.pageSize;
     const list = this.rules.slice(start, end);
     return list;
+  }
+
+  getTypes() {
+    return this.types;
   }
 }
