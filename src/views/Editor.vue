@@ -237,7 +237,8 @@ export default class CssEditor extends Vue {
     reader.readAsText(file, 'UTF-8');
     reader.onload = (evt: any) => {
       const content = evt.target.result;
-      this.parseCss(content);
+      this.engine.parse(content);
+      this.getList();
     };
     return false;
   }
