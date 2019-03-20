@@ -28,7 +28,7 @@ export default class CssEngine {
       rules = rules.filter(item => item.type === type);
     }
 
-    if (selector && (type === '' || type === 'rule')) {
+    if (selector && (!type || type === 'rule')) {
       rules = rules.filter((item) => {
         if (item.type !== 'rule') {
           return false;

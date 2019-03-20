@@ -12,7 +12,7 @@
         </FormItem>
         <FormItem prop="selector" label="筛选器">
           <Input type="text" v-model="formInline.selector" placeholder="请输入"
-            :disabled="formInline.type !== '' && formInline.type !== 'rule'">
+            :disabled="disableSelector()">
           </Input>
         </FormItem>
         <FormItem>
@@ -159,6 +159,10 @@ export default class CssEditor extends Vue {
   };
 
   engine: any;
+
+  disableSelector() {
+    return this.formInline.type ? this.formInline.type !== 'rule' : false;
+  }
 
   getTypes() {
     return this.engine ? this.engine.getTypes() : [];
