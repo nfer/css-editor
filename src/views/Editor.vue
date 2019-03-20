@@ -228,11 +228,8 @@ export default class CssEditor extends Vue {
   }
 
   handleReset() {
-    this.formInline = {
-      type: '',
-      selector: '',
-    };
-    this.handleSubmit();
+    const form: any = this.$refs.formInline;
+    form.resetFields();
   }
 
   handleImport(file: File) {
