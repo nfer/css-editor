@@ -176,7 +176,10 @@ export default class CssEditor extends Vue {
   }
 
   getList() {
-    this.list = this.engine.getList(this.pager);
+    const param = {
+      type: this.formInline.type,
+    };
+    this.list = this.engine.getList(this.pager, param);
   }
 
   declarations2str(declarations: Array<any>) {
@@ -296,7 +299,7 @@ export default class CssEditor extends Vue {
   }
 
   onTypeChanged() {
-    this.handleSubmit();
+    this.getList();
   }
 
   onSelectionChanged(selections: Array<any>) {

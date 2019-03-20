@@ -20,10 +20,17 @@ export default class CssEngine {
     this.types = [...new Set(types)];
   }
 
-  getList(pager: any) {
+  getList(pager: any, param: any) {
+    let { rules } = this;
+    const { type } = param;
+
+    if (type) {
+      rules = rules.filter(item => item.type === type);
+    }
+
     const end = pager.current * pager.pageSize;
     const start = end - pager.pageSize;
-    const list = this.rules.slice(start, end);
+    const list = rules.slice(start, end);
     return list;
   }
 
