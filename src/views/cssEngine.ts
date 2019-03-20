@@ -22,10 +22,21 @@ export default class CssEngine {
 
   getList(pager: any, param: any) {
     let { rules } = this;
-    const { type } = param;
+    const { type, selector } = param;
 
     if (type) {
       rules = rules.filter(item => item.type === type);
+    }
+
+    if (selector && (type === '' || type === 'rule')) {
+      rules = rules.filter((item) => {
+        if (item.type !== 'rule') {
+          return false;
+        }
+
+        const { selectors } = item;
+        return selectors.some((s: string) => s.indexOf(selector) !== -1);
+      });
     }
 
     const end = pager.current * pager.pageSize;

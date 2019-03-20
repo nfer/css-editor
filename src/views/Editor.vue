@@ -178,6 +178,7 @@ export default class CssEditor extends Vue {
   getList() {
     const param = {
       type: this.formInline.type,
+      selector: this.formInline.selector,
     };
     this.list = this.engine.getList(this.pager, param);
   }
@@ -207,29 +208,14 @@ export default class CssEditor extends Vue {
   }
 
   handleSubmit() {
-    const { type, selector } = this.formInline;
-    this.rules = this.ast.stylesheet.rules;
-    if (type) {
-      this.rules = this.rules
-        .filter(item => item.type === type);
-    }
-    if (selector && (type === '' || type === 'rule')) {
-      this.rules = this.rules
-        .filter((item) => {
-          if (item.type !== 'rule') {
-            return false;
-          }
-
-          const { selectors } = item;
-          return selectors.some((s: string) => s.indexOf(selector) !== -1);
-        });
-    }
-    this.updatePageRules();
+    this.getList();
   }
 
   handleReset() {
     const form: any = this.$refs.formInline;
     form.resetFields();
+
+    this.getList();
   }
 
   handleImport(file: File) {
