@@ -35,7 +35,7 @@
       <Alert show-icon>已选{{ selections.length }}项</Alert>
     </Row>
     <Row>
-      <Table border ref="selection" :columns="headers" :data="pageRules"
+      <Table border ref="selection" :columns="headers" :data="list"
         disabled-hover
         @on-selection-change="onSelectionChanged">
         <template slot-scope="{ row }" slot="action">
@@ -87,6 +87,7 @@ import css from 'css';
 import forkMe from 'fork-me-github';
 
 import EditFormModal from '@/components/EditFormModal.vue';
+import CssEngine from './cssEngine';
 
 
 @Component({
@@ -143,6 +144,8 @@ export default class CssEditor extends Vue {
 
   pageRules: Array<any> = [];
 
+  list: Array<any> = [];
+
   types: Array<string> = [];
 
   selections: Array<any> = [];
@@ -157,11 +160,21 @@ export default class CssEditor extends Vue {
     pageSize: 10,
   };
 
+  engine: any;
+
   created() {
+    this.engine = new CssEngine();
+    this.engine.parse('html, body {margin: 0;}');
+    this.getList();
+
     this.parseCss('html, body {margin: 0;}');
     forkMe('https://github.com/nfer/css-editor', {
       background: 'gray',
     });
+  }
+
+  getList() {
+    this.list = this.engine.getList(this.pager);
   }
 
   declarations2str(declarations: Array<any>) {
