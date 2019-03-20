@@ -6,7 +6,7 @@
         <FormItem prop="type" label="类型">
           <Select v-model="formInline.type" filterable
             @on-change="onTypeChanged">
-            <Option v-for="item in types"
+            <Option v-for="item in getTypes()"
               :value="item" :key="item">{{ item }}</Option>
           </Select>
         </FormItem>
@@ -160,7 +160,7 @@ export default class CssEditor extends Vue {
 
   engine: any;
 
-  get types() {
+  getTypes() {
     return this.engine ? this.engine.getTypes() : [];
   }
 
