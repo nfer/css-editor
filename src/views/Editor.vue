@@ -68,7 +68,8 @@
         <Button type="error" @click="deleteBatch">批量删除</Button>
       </Col>
       <Col span="16" style="text-align: right;">
-        <Page :current="pager.current" :total="rules.length"
+        <Page
+          :current="pager.current" :total="getTotal()"
           :page-size-opts="[10, 20, 50, 100]"
           show-total show-sizer show-elevator
           @on-change="onPageChanged"
@@ -162,6 +163,10 @@ export default class CssEditor extends Vue {
 
   disableSelector() {
     return this.formInline.type ? this.formInline.type !== 'rule' : false;
+  }
+
+  getTotal() {
+    return this.engine ? this.engine.getTotal() : [];
   }
 
   getTypes() {
@@ -295,12 +300,12 @@ export default class CssEditor extends Vue {
 
   onPageChanged(current: number) {
     this.pager.current = current;
-    this.updatePageRules();
+    this.getList();
   }
 
   onPageSizeChanged(size: number) {
     this.pager.pageSize = size;
-    this.updatePageRules();
+    this.getList();
   }
 
   onRuleChanged(rule: any) {

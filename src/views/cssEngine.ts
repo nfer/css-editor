@@ -45,6 +45,10 @@ export default class CssEngine {
     return list;
   }
 
+  getTotal() {
+    return this.rules.length;
+  }
+
   getTypes() {
     return this.types;
   }
