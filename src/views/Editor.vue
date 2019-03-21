@@ -141,10 +141,6 @@ export default class CssEditor extends Vue {
 
   ast: any;
 
-  rules: Array<any> = [];
-
-  pageRules: Array<any> = [];
-
   list: Array<any> = [];
 
   selections: Array<any> = [];
@@ -178,7 +174,6 @@ export default class CssEditor extends Vue {
     this.engine.parse('html, body {margin: 0;}');
     this.getList();
 
-    this.parseCss('html, body {margin: 0;}');
     forkMe('https://github.com/nfer/css-editor', {
       background: 'gray',
     });
@@ -197,23 +192,6 @@ export default class CssEditor extends Vue {
       property: item.property,
       value: item.value,
     }));
-  }
-
-  parseCss(content: string) {
-    this.ast = css.parse(content);
-    this.rules = this.ast.stylesheet.rules;
-    this.rules.map((item: any, index: number) => {
-      const res = item;
-      res.rawIndex = index;
-      return res;
-    });
-    this.updatePageRules();
-  }
-
-  updatePageRules() {
-    const end = this.pager.current * this.pager.pageSize;
-    const start = end - this.pager.pageSize;
-    this.pageRules = this.rules.slice(start, end);
   }
 
   handleSubmit() {
