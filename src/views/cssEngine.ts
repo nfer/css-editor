@@ -20,6 +20,11 @@ export default class CssEngine {
     this.types = [...new Set(types)];
   }
 
+  stringify() {
+    const str = css.stringify(this.ast);
+    return str;
+  }
+
   getList(pager: any, param: any) {
     let { rules } = this;
     const { type, selector } = param;

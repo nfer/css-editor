@@ -84,7 +84,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import css from 'css';
 import forkMe from 'fork-me-github';
 
 import EditFormModal from '@/components/EditFormModal.vue';
@@ -217,7 +216,7 @@ export default class CssEditor extends Vue {
   }
 
   handleExport() {
-    const str = css.stringify(this.ast);
+    const str = this.engine.stringify();
     const name = 'output.css';
     const file = new File([str], name);
     const link = document.createElement('a');
