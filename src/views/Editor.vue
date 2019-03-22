@@ -16,7 +16,7 @@
           </Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="handleSubmit">查询</Button>
+          <Button type="primary" @click="getList()">查询</Button>
           <Button @click="handleReset">重置</Button>
         </FormItem>
         <FormItem>
