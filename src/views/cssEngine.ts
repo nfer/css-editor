@@ -50,6 +50,29 @@ export default class CssEngine {
     return list;
   }
 
+  delete(rawIndex: number) {
+    let index = rawIndex;
+    if (this.ast.stylesheet.rules[index].rawIndex !== index) {
+      index = this.ast.stylesheet.rules
+        .findIndex((item: any) => item.rawIndex === rawIndex);
+    }
+    this.ast.stylesheet.rules.splice(index, 1);
+
+    const types = this.rules.map(item => item.type);
+    this.types = [...new Set(types)];
+  }
+
+  deleteBatch(rawIndexs: Array<number>) {
+    rawIndexs.forEach((rawIndex: number) => {
+      const index = this.ast.stylesheet.rules
+        .findIndex((item: any) => item.rawIndex === rawIndex);
+      this.ast.stylesheet.rules.splice(index, 1);
+    });
+
+    const types = this.rules.map(item => item.type);
+    this.types = [...new Set(types)];
+  }
+
   getTotal() {
     return this.rules.length;
   }
