@@ -1,6 +1,16 @@
 <template>
   <div class="css-editor">
     <Row>
+      <Upload
+        :before-upload="handleImport"
+        :format="['css']"
+        :accept="'text/css'"
+        action="/">
+        <Button type="info">导入</Button>
+      </Upload>
+      <Button type="warning" @click="handleExport">导出</Button>
+    </Row>
+    <Row>
       <Form ref="formInline" :model="formInline"
         label-position="right" :label-width="100" inline>
         <FormItem prop="type" label="类型">
@@ -18,16 +28,6 @@
         <FormItem>
           <Button type="primary" @click="handleSubmit">查询</Button>
           <Button @click="handleReset">重置</Button>
-        </FormItem>
-        <FormItem>
-        <Upload
-            :before-upload="handleImport"
-            :format="['css']"
-            :accept="'text/css'"
-            action="/">
-            <Button type="info">导入</Button>
-        </Upload>
-          <Button type="warning" @click="handleExport">导出</Button>
         </FormItem>
       </Form>
     </Row>
