@@ -68,8 +68,9 @@ export default class Home extends Vue {
 
   loadData() {
     const selector = this.search && this.search.selector;
+    this.rules = this.ast.stylesheet.rules;
     if (selector) {
-      this.rules = this.ast.stylesheet.rules
+      this.rules = this.rules
         .filter((item: any) => {
           const { selectors } = item;
           return selectors.some((s: string) => s.indexOf(selector) !== -1);
