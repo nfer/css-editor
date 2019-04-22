@@ -1,8 +1,12 @@
 <template>
   <div>
-    <FileOperate @on-operation="onOperation"/>
-    <SearchForm @on-operation="onOperation"/>
+    <FileOperate
+      @on-operation="onOperation"/>
+    <SearchForm
+      @on-operation="onOperation"/>
     <Editor :list="list"/>
+    <Pager :current="pager.current" :total="rules.length"
+      @on-operation="onOperation"/>
     <ForkMe />
   </div>
 </template>
@@ -14,6 +18,7 @@ import css from 'css';
 import FileOperate from '@/components/FileOperate.vue';
 import SearchForm from '@/components/SearchForm.vue';
 import Editor from '@/components/Editor.vue';
+import Pager from '@/components/Pager.vue';
 import ForkMe from '@/components/ForkMe.vue';
 
 @Component({
@@ -21,6 +26,7 @@ import ForkMe from '@/components/ForkMe.vue';
     FileOperate,
     SearchForm,
     Editor,
+    Pager,
     ForkMe,
   },
 })
@@ -61,11 +67,10 @@ export default class Home extends Vue {
   }
 
   loadData() {
-    const { selector } = this.search;
-    this.rules = this.ast.stylesheet.rules;
+    const selector = this.search && this.search.selector;
     if (selector) {
-      this.rules = this.rules
-        .filter((item) => {
+      this.rules = this.ast.stylesheet.rules
+        .filter((item: any) => {
           const { selectors } = item;
           return selectors.some((s: string) => s.indexOf(selector) !== -1);
         });
@@ -89,6 +94,11 @@ export default class Home extends Vue {
     switch (type) {
       case 'search':
         this.search = { ...data };
+        this.loadData();
+        break;
+
+      case 'pager-changed':
+        this.pager = { ...data };
         this.loadData();
         break;
 

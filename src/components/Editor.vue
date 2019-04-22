@@ -32,15 +32,6 @@
         </template>
       </Table>
     </Row>
-    <Row>
-      <Col span="24" style="text-align: right;">
-        <Page :current="pager.current" :total="list.length"
-          :page-size-opts="[10, 20, 50, 100]"
-          show-total show-sizer show-elevator
-          @on-change="onPageChanged"
-          @on-page-size-change="onPageSizeChanged"/>
-      </Col>
-    </Row>
   </div>
 </template>
 
@@ -93,11 +84,6 @@ export default class CssEditor extends Vue {
 
   selections: Array<any> = [];
 
-  pager = {
-    current: 1,
-    pageSize: 10,
-  };
-
   declarations2str(declarations: Array<any>) {
     return declarations.map(item => ({
       property: item.property,
@@ -107,24 +93,6 @@ export default class CssEditor extends Vue {
 
   onSelectionChanged(selections: Array<any>) {
     this.selections = selections;
-  }
-
-  onPageChanged(current: number) {
-    this.pager.current = current;
-    this.emitPagerChanged();
-  }
-
-  onPageSizeChanged(size: number) {
-    this.pager.pageSize = size;
-    this.emitPagerChanged();
-  }
-
-  @Emit('on-operation')
-  emitPagerChanged() {
-    return {
-      type: 'pager-changed',
-      data: this.pager,
-    };
   }
 }
 </script>
