@@ -18,6 +18,10 @@
             <span v-else-if="row.type === 'font-face'"
               >{{ declarations2str(row.declarations) }}</span>
         </template>
+        <template slot-scope="{ row }" slot="type">
+            <span v-if="row.type === 'media'">{{ `media ${row.media}` }}</span>
+            <span v-else>{{ row.type }}</span>
+        </template>
         <template slot-scope="{ row }" slot="selectors">
             <span v-if="row.type === 'rule'">{{ row.selectors }}</span>
             <span v-else-if="row.type === 'keyframes'">{{ row.name }}</span>
@@ -60,8 +64,7 @@ export default class CssEditor extends Vue {
     },
     {
       title: '类型',
-      key: 'type',
-      width: 120,
+      slot: 'type',
     },
     {
       title: '选择器',

@@ -45,7 +45,7 @@ export default class Home extends Vue {
   };
 
   created() {
-    this.parseCss('html, body {margin: 0;}');
+    this.parseCss('html, body {margin: 0;} @media (max-width: 1200px) {body {margin: 10px;}, p {margin: 10px;}}');
   }
 
   parseCss(content: string) {
