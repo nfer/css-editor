@@ -72,8 +72,12 @@ export default class Home extends Vue {
     if (selector) {
       this.rules = this.rules
         .filter((item: any) => {
-          const { selectors } = item;
-          return selectors.some((s: string) => s.indexOf(selector) !== -1);
+          if (item.type === 'rule') {
+            const { selectors } = item;
+            return selectors.some((s: string) => s.indexOf(selector) !== -1);
+          }
+
+          return false;
         });
     }
     this.updatePageRules();
