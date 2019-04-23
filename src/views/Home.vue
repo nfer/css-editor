@@ -37,8 +37,6 @@ import ExportFormModal from '@/components/ExportFormModal.vue';
 export default class Home extends Vue {
   search: any;
 
-  ast: any;
-
   rules: Array<any> = [];
 
   total = 0;
@@ -65,8 +63,8 @@ export default class Home extends Vue {
   }
 
   parseCss(content: string) {
-    this.ast = css.parse(content);
-    const { rules } = this.ast.stylesheet;
+    const ast: any = css.parse(content);
+    const { rules } = ast.stylesheet;
 
     const medias: Array<any> = [];
 
