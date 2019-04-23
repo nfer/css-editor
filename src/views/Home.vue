@@ -37,8 +37,6 @@ export default class Home extends Vue {
 
   rules: Array<any> = [];
 
-  medias: Array<any> = [];
-
   list: Array<any> = [];
 
   pager = {
@@ -62,10 +60,12 @@ export default class Home extends Vue {
     this.ast = css.parse(content);
     const { rules } = this.ast.stylesheet;
 
+    const medias: Array<any> = [];
+
     let index = 0;
     rules.forEach((item: any) => {
       if (item.type === 'rule') {
-        let media = this.medias[index];
+        let media = medias[index];
         if (!media) {
           media = {
             type: 'media',
@@ -73,12 +73,12 @@ export default class Home extends Vue {
             media: '',
           };
           media.rules.push(item);
-          this.medias.push(media);
+          medias.push(media);
         } else {
           media.rules.push(item);
         }
       } else if (item.type === 'media') {
-        this.medias.push({
+        medias.push({
           type: item.type,
           rules: item.rules,
           media: item.media,
@@ -87,7 +87,7 @@ export default class Home extends Vue {
       }
     });
 
-    this.rules = this.medias
+    this.rules = medias
       .reduce((prev, curr) => prev.concat(curr.rules), [])
       .map((item: any, idx: number) => {
         const rule = item;
