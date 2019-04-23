@@ -51,7 +51,8 @@ export default class Home extends Vue {
       html, body {margin: 0;}
       p {margin: 0;}
       @media (max-width: 1200px) {
-        body {margin: 10px;}, p {margin: 10px;}
+        body {margin: 10px;}
+        p {margin: 10px;}
       }
       img {margin: 0;}
     `);
