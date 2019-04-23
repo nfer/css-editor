@@ -91,11 +91,11 @@ export default class Home extends Vue {
       .map((item: any, idx: number) => {
         const rule = item;
         rule.rawIndex = idx;
-        if (item.parent.type === 'media') {
+        if (item.parent && item.parent.type === 'media') {
           rule.type = 'media';
           rule.media = item.parent.media;
+          delete rule.parent;
         }
-        delete rule.parent;
         return rule;
       });
 
@@ -105,7 +105,6 @@ export default class Home extends Vue {
   loadData() {
     const selector = this.search && this.search.selector;
     let { rules } = this;
-    console.log(rules);
     if (selector) {
       rules = rules
         .filter((item: any) => {
