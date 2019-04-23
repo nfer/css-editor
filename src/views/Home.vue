@@ -5,7 +5,7 @@
     <SearchForm
       @on-operation="onOperation"/>
     <Editor :list="list"/>
-    <Pager :current="pager.current" :total="rules.length"
+    <Pager :current="pager.current" :total="total"
       @on-operation="onOperation"/>
     <ForkMe />
   </div>
@@ -36,6 +36,8 @@ export default class Home extends Vue {
   ast: any;
 
   rules: Array<any> = [];
+
+  total = 0;
 
   list: Array<any> = [];
 
@@ -117,6 +119,8 @@ export default class Home extends Vue {
           return false;
         });
     }
+
+    this.total = rules.length;
 
     const end = this.pager.current * this.pager.pageSize;
     const start = end - this.pager.pageSize;
