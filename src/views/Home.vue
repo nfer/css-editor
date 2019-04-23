@@ -37,6 +37,8 @@ export default class Home extends Vue {
 
   rules: Array<any> = [];
 
+  medias: Array<any> = [];
+
   list: Array<any> = [];
 
   pager = {
@@ -45,7 +47,14 @@ export default class Home extends Vue {
   };
 
   created() {
-    this.parseCss('html, body {margin: 0;} @media (max-width: 1200px) {body {margin: 10px;}, p {margin: 10px;}}');
+    this.parseCss(`
+      html, body {margin: 0;}
+      p {margin: 0;}
+      @media (max-width: 1200px) {
+        body {margin: 10px;}, p {margin: 10px;}
+      }
+      img {margin: 0;}
+    `);
   }
 
   parseCss(content: string) {
@@ -55,6 +64,31 @@ export default class Home extends Vue {
       const res = item;
       res.rawIndex = index;
       return res;
+    });
+
+    let index = 0;
+    this.rules.forEach((item: any) => {
+      if (item.type === 'rule') {
+        let media = this.medias[index];
+        if (!media) {
+          media = {
+            type: 'media',
+            rules: [],
+            media: '',
+          };
+          media.rules.push(item);
+          this.medias.push(media);
+        } else {
+          media.rules.push(item);
+        }
+      } else if (item.type === 'media') {
+        this.medias.push({
+          type: item.type,
+          rules: item.rules,
+          media: item.media,
+        });
+        index += 2;
+      }
     });
 
     this.updatePageRules();
