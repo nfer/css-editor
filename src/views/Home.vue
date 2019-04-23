@@ -8,6 +8,8 @@
     <Pager :current="pager.current" :total="total"
       @on-operation="onOperation"/>
     <ForkMe />
+    <ExportFormModal :show="showExportModal"
+      @on-operation="onOperation"/>
   </div>
 </template>
 
@@ -20,6 +22,7 @@ import SearchForm from '@/components/SearchForm.vue';
 import Editor from '@/components/Editor.vue';
 import Pager from '@/components/Pager.vue';
 import ForkMe from '@/components/ForkMe.vue';
+import ExportFormModal from '@/components/ExportFormModal.vue';
 
 @Component({
   components: {
@@ -28,6 +31,7 @@ import ForkMe from '@/components/ForkMe.vue';
     Editor,
     Pager,
     ForkMe,
+    ExportFormModal,
   },
 })
 export default class Home extends Vue {
@@ -45,6 +49,8 @@ export default class Home extends Vue {
     current: 1,
     pageSize: 10,
   };
+
+  showExportModal = false;
 
   created() {
     this.parseCss(`
@@ -155,8 +161,8 @@ export default class Home extends Vue {
         this.parseCss(data);
         break;
 
-      case 'export':
-        this.handleExport();
+      case 'show-export-modal':
+        this.showExportModal = data;
         break;
 
       default:

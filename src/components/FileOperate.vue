@@ -40,8 +40,8 @@ export default class FileOperate extends Vue {
   @Emit('on-operation')
   handleExport() {
     return {
-      type: 'export',
-      data: {},
+      type: 'show-export-modal',
+      data: true,
     };
   }
 }
