@@ -59,15 +59,10 @@ export default class Home extends Vue {
 
   parseCss(content: string) {
     this.ast = css.parse(content);
-    this.rules = this.ast.stylesheet.rules;
-    this.rules.map((item: any, index: number) => {
-      const res = item;
-      res.rawIndex = index;
-      return res;
-    });
+    const { rules } = this.ast.stylesheet;
 
     let index = 0;
-    this.rules.forEach((item: any) => {
+    rules.forEach((item: any) => {
       if (item.type === 'rule') {
         let media = this.medias[index];
         if (!media) {
@@ -91,22 +86,30 @@ export default class Home extends Vue {
       }
     });
 
-    this.updatePageRules();
-  }
+    this.rules = this.medias
+      .reduce((prev, curr) => prev.concat(curr.rules), [])
+      .map((item: any, idx: number) => {
+        const rule = item;
+        rule.rawIndex = idx;
+        if (item.parent.type === 'media') {
+          rule.type = 'media';
+          rule.media = item.parent.media;
+        }
+        delete rule.parent;
+        return rule;
+      });
 
-  updatePageRules() {
-    const end = this.pager.current * this.pager.pageSize;
-    const start = end - this.pager.pageSize;
-    this.list = this.rules.slice(start, end);
+    this.loadData();
   }
 
   loadData() {
     const selector = this.search && this.search.selector;
-    this.rules = this.ast.stylesheet.rules;
+    let { rules } = this;
+    console.log(rules);
     if (selector) {
-      this.rules = this.rules
+      rules = rules
         .filter((item: any) => {
-          if (item.type === 'rule') {
+          if (item.type === 'rule' || item.type === 'media') {
             const { selectors } = item;
             return selectors.some((s: string) => s.indexOf(selector) !== -1);
           }
@@ -114,7 +117,10 @@ export default class Home extends Vue {
           return false;
         });
     }
-    this.updatePageRules();
+
+    const end = this.pager.current * this.pager.pageSize;
+    const start = end - this.pager.pageSize;
+    this.list = rules.slice(start, end);
   }
 
   handleExport() {
