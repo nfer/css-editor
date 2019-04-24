@@ -25,9 +25,9 @@
             <span v-else>{{ row.type }}</span>
         </template>
         <template slot-scope="{ row }" slot="selectors">
-            <span v-if="row.type === 'rule'">{{ row.selectors }}</span>
+            <span v-if="row.type === 'rule'">{{ row.selectors.join(', ') }}</span>
             <span v-else-if="row.type === 'keyframes'">{{ row.name }}</span>
-            <span v-else-if="row.type === 'media'">{{ row.selectors }}</span>
+            <span v-else-if="row.type === 'media'">{{ row.selectors.join(', ') }}</span>
             <span v-else-if="row.type === 'document'"
               >{{ `@${row.vendor}document: ${row.document}` }}</span>
         </template>
