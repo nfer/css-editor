@@ -35,7 +35,7 @@ import ExportFormModal from '@/components/ExportFormModal.vue';
   },
 })
 export default class Home extends Vue {
-  search: any;
+  search: any = {};
 
   rules: Array<any> = [];
 
@@ -56,7 +56,7 @@ export default class Home extends Vue {
       p {margin: 0;}
       @media (max-width: 1200px) {
         body {margin: 10px;}
-        p {margin: 10px;}
+        .page {margin: 10px;}
       }
       img {margin: 0;}
     `);
@@ -110,13 +110,17 @@ export default class Home extends Vue {
   }
 
   filterData() {
-    const selector = this.search && this.search.selector;
+    const { selector, mode } = this.search;
     let { rules } = this;
     if (selector) {
       rules = rules
         .filter((item: any) => {
           if (item.type === 'rule' || item.type === 'media') {
             const { selectors } = item;
+            if (mode === 'exact') {
+              return selectors.indexOf(selector) !== -1;
+            }
+
             return selectors.some((s: string) => s.indexOf(selector) !== -1);
           }
 
