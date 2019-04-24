@@ -67,6 +67,7 @@ export default class CssEditor extends Vue {
     {
       title: '媒体查询',
       slot: 'type',
+      width: 200,
     },
     {
       title: '选择器',
