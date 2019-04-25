@@ -11,6 +11,10 @@
         <Input type="text" v-model="formInline.fileName" placeholder="请输入文件名">
         </Input>
       </FormItem>
+      <FormItem label="去除前缀">
+        <Input type="text" v-model="formInline.prefix" placeholder="请输入前缀">
+        </Input>
+      </FormItem>
     </Form>
     <div slot="footer">
       <Button type="error" size="large" @click="cancel">取消</Button>
@@ -31,6 +35,7 @@ export default class ExportFormModal extends Vue {
 
   initForm = {
     fileName: 'output.css',
+    prefix: '',
   };
 
   formInline = { ...this.initForm };
