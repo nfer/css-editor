@@ -1,4 +1,4 @@
-# css-editor
+# css-editor [![Build Status](https://www.travis-ci.org/nfer/css-editor.svg?branch=master)](https://www.travis-ci.org/nfer/css-editor)
 
 ## Project setup
 ```
