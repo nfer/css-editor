@@ -166,8 +166,23 @@ export default class Home extends Vue {
     return arr;
   }
 
-  handleExport(fileName: string) {
+  handleExport(fileName: string, prefix: string) {
     const rules = this.filterData();
+    if (prefix) {
+      const pLen = prefix.length;
+      rules.forEach((item: any) => {
+        if (item.type === 'rule' || item.type === 'media') {
+          /* eslint-disable no-param-reassign */
+          item.selectors = item.selectors.map((s: string) => {
+            if (s.startsWith(prefix)) {
+              return s.substring(pLen);
+            }
+            return s;
+          });
+          /* eslint-enable no-param-reassign */
+        }
+      });
+    }
     const outputRules = this.tableRules2parseRules(rules);
 
     const ast = {
@@ -204,7 +219,7 @@ export default class Home extends Vue {
         break;
 
       case 'export':
-        this.handleExport(data.fileName);
+        this.handleExport(data.fileName, data.prefix);
         break;
 
       case 'show-export-modal':
