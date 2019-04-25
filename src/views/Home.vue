@@ -175,7 +175,7 @@ export default class Home extends Vue {
           /* eslint-disable no-param-reassign */
           item.selectors = item.selectors.map((s: string) => {
             if (s.startsWith(prefix)) {
-              return s.substring(pLen);
+              return s.substring(pLen).trim();
             }
             return s;
           });
