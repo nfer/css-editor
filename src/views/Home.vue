@@ -121,6 +121,10 @@ export default class Home extends Vue {
               return selectors.indexOf(selector) !== -1;
             }
 
+            if (mode === 'exclude') {
+              return selectors.every((s: string) => s.indexOf(selector) === -1);
+            }
+
             return selectors.some((s: string) => s.indexOf(selector) !== -1);
           }
 

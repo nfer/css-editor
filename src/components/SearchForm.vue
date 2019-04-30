@@ -10,6 +10,7 @@
         <RadioGroup v-model="formInline.mode">
           <Radio label="fuzzy">模糊匹配</Radio>
           <Radio label="exact">精确匹配</Radio>
+          <Radio label="exclude">不包含</Radio>
         </RadioGroup>
       </FormItem>
       <FormItem>
